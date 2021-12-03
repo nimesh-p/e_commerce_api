@@ -105,12 +105,14 @@ JWT_AUTH = {"JWT_EXPIRATION_DELTA": datetime.timedelta(days=365)}
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 
+
+
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = "prajapatinimesh0717@gmail.com"
-EMAIL_HOST_PASSWORD = "Nimesh17@"
+EMAIL_HOST_USER = "your email"
+EMAIL_HOST_PASSWORD = "password"
 
 
 REST_AUTH_SERIALIZERS = {
