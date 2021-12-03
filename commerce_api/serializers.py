@@ -58,9 +58,7 @@ class CategoriesSerializer(serializers.ModelSerializer):
 
 
 class BookSerializer(serializers.ModelSerializer):
-    created_by = serializers.ReadOnlyField(
-        source="created_by.username", read_only=False
-    )
+    user = RegistrationSerializer()
 
     class Meta:
         fields = (
@@ -74,6 +72,7 @@ class BookSerializer(serializers.ModelSerializer):
             "stock",
             "description",
             "imageUrl",
+            "user",
             "status",
             "date_created",
         )
@@ -81,9 +80,7 @@ class BookSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    created_by = serializers.ReadOnlyField(
-        source="created_by.username", read_only=False
-    )
+    user = RegistrationSerializer()
 
     class Meta:
         fields = (
@@ -94,6 +91,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "price",
             "stock",
             "imageUrl",
+            "user",
             "status",
             "date_created",
         )
@@ -101,10 +99,6 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    books = serializers.PrimaryKeyRelatedField(many=True, queryset=Book.objects.all())
-    products = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=Product.objects.all()
-    )
 
     class Meta:
         model = User
@@ -112,8 +106,8 @@ class UserSerializer(serializers.ModelSerializer):
             "id",
             "username",
             "email",
-            "books",
-            "products",
+            "first_name",
+            "last_name",
             "verification",
         )
 
