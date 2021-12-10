@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "rest_auth",
+    "django_rest_passwordreset",
 ]
 
 SITE_ID = 1
@@ -63,7 +64,7 @@ ROOT_URLCONF = "e_commerce.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -105,18 +106,17 @@ JWT_AUTH = {"JWT_EXPIRATION_DELTA": datetime.timedelta(days=365)}
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 
-
-
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = "your email"
-EMAIL_HOST_PASSWORD = "password"
+EMAIL_HOST_USER = "prajapatinimesh0717@gmail.com"
+EMAIL_HOST_PASSWORD = "Nimesh17@"
 
 
 REST_AUTH_SERIALIZERS = {
     "LOGIN_SERIALIZER": "commerce_api.serializers.CustomLoginSerializer",
+    "PASSWORD_RESET_SERIALIZER": "commerce_api.serializers.CustomPasswordResetSerializer",
 }
 
 # REST_FRAMEWORK = {

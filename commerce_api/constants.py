@@ -17,3 +17,12 @@ SUCCESS_REGISTRATION_MESSAGE = {
     "title": "Hello, FirstName,",
     "body": f"\nWelcome to E-commerce Website,\n{SITE_URL}/login/ \nThank you",
 }
+CLASS_RESPONSE = {"success": True, "message": ""}
+ORGANIZATION_RESPONCE =  "Get all cart data successfully"
+
+PASSWORD_RESET_EMAIL_MESSAGE = {
+    "header": "Hello, ",
+    "body": "We need to confirm that it's you,",
+    "footer1": "If you did not request to reset your password, please ignore or delete this email",
+    "footer": "Thank you",
+}

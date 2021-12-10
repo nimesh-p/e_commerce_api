@@ -9,10 +9,10 @@ class SendEmailIdVerifyEmail(Task):
     name = "send_email_id_verification_email"
 
     def run(self, uid, token, first_name, to_email):
-        # print(uid)
-        # print(token)
-        # print(first_name)
-        # print(to_email)
+        print(uid)
+        print(token)
+        print(first_name)
+        print(to_email)
         try:
 
             return VerifyEmail.send_registration_verify_email(

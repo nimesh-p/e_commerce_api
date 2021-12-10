@@ -18,7 +18,9 @@ from django.urls import include, path
 from rest_framework.authtoken.views import obtain_auth_token
 from commerce_api.views import RegistrationAPIView, LoginView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from rest_auth.views import LoginView
+# from rest_auth.views import LoginView
+from rest_auth.views import PasswordResetView,PasswordResetConfirmView
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -27,7 +29,10 @@ urlpatterns = [
     path("auth/register/", RegistrationAPIView.as_view(), name="register"),
     # path('auth/login/', TokenObtainPairView.as_view(), name='login'),
     path("api-auth/", include("rest_framework.urls")),
+
     path("rest-auth/", include("rest_auth.urls")),
-    path("login/", LoginView.as_view(), name="login")
+    path("login/", LoginView.as_view(), name="login"),
+    path("password/",PasswordResetView.as_view(), name="password"),
+    path("password/confirm/",PasswordResetConfirmView.as_view(), name="password")
     # path('auth/refresh-token', TokenRefreshView.as_view(), name='refreshtoken'),
 ]
