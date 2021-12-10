@@ -18,7 +18,7 @@ SUCCESS_REGISTRATION_MESSAGE = {
     "body": f"\nWelcome to E-commerce Website,\n{SITE_URL}/login/ \nThank you",
 }
 CLASS_RESPONSE = {"success": True, "message": ""}
-ORGANIZATION_RESPONCE =  "Get all cart data successfully"
+ORGANIZATION_RESPONCE = "Get all cart data successfully"
 
 PASSWORD_RESET_EMAIL_MESSAGE = {
     "header": "Hello, ",

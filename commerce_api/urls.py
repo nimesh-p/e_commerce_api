@@ -1,4 +1,4 @@
-from django.urls import path,include
+from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import (
     ListCategory,
@@ -10,13 +10,12 @@ from .views import (
     EmailValidate,
     CustomPasswordResetView,
     CustomPasswordResetConfirmView,
-
 )
 
 
 router = DefaultRouter()
-router.register(r'users', ListUser, basename='user')
-router.register(r'carts',ListCart,basename='carts')
+router.register(r"users", ListUser, basename="user")
+router.register(r"carts", ListCart, basename="carts")
 
 urlpatterns = [
     path("categories/", ListCategory.as_view(), name="categorie"),
@@ -28,7 +27,7 @@ urlpatterns = [
     path("products/<int:pk>/", ListProduct.as_view(), name="singleproduct"),
     # path("users/", ListUser.as_view(), name="users"),
     # path("users/<int:pk>/", DetailUser.as_view(), name="singleuser"),
-    path("routers_urls/",include(router.urls)),
+    path("routers_urls/", include(router.urls)),
     # path("carts/", ListCart.as_view(), name="allcarts"),
     # path("carts/<int:pk>/", DetailCart.as_view(), name="cartdetail"),
     path("activate/<uidb64>/<token>/", EmailValidate.as_view(), name="activate"),

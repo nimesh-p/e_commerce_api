@@ -9,7 +9,15 @@ class PasswordResetEmail(Task):
 
     name = "send_password_reset_email"
 
-    def run(self,subject_template_name,email_template_name,context,from_email,to_email,html_email_template_name):
+    def run(
+        self,
+        subject_template_name,
+        email_template_name,
+        context,
+        from_email,
+        to_email,
+        html_email_template_name,
+    ):
         print(subject_template_name)
         print(email_template_name)
         print(context)
@@ -31,7 +39,7 @@ class PasswordResetEmail(Task):
             )
 
         except Exception as e:
-          print(e)
+            print(e)
             # logging.error(
             #     f"Error while calling executing PasswordResetEmail. error message: {str(e)}"
             # )

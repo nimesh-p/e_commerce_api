@@ -2,11 +2,13 @@ from rest_framework import serializers
 from .models import Category, Book, Product, Cart
 from django import forms
 from django.contrib.auth.forms import PasswordResetForm as PasswordResetFormCore
+
 # from django.contrib.auth.models import User
-from rest_auth.serializers import LoginSerializer,PasswordResetSerializer
+from rest_auth.serializers import LoginSerializer, PasswordResetSerializer
 from commerce_api.models import User
 from rest_auth.serializers import LoginSerializer
 from commerce_api.tasks.passeord_reset_task import send_password_reset_email
+
 
 class RegistrationSerializer(serializers.ModelSerializer):
 
@@ -36,6 +38,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
     # def create(self, validated_data):
     #     return User.objects.create_user(**validated_data)
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -109,9 +112,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "date_created",
         )
         model = Product
-        read_only_fields = ('user',)
-
-
+        read_only_fields = ("user",)
 
 
 class CartUserSerializer(serializers.ModelSerializer):
@@ -126,13 +127,12 @@ class CartSerializer(serializers.ModelSerializer):
     products = ProductSerializer(read_only=True, many=True)
     id = serializers.SerializerMethodField()
 
-    def get_id(self,obj):
+    def get_id(self, obj):
         return obj.cart_id_id
 
     class Meta:
         model = Cart
-        fields = ("id","cart_id", "created_at", "books", "products")
-
+        fields = ("id", "cart_id", "created_at", "books", "products")
 
 
 class PasswordResetForm(PasswordResetFormCore):

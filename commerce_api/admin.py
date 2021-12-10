@@ -6,6 +6,7 @@ from commerce_api.models import Category, Book, Product, Cart, User
 
 # Register your models here.
 
+
 class UserAdmin(admin.ModelAdmin):
     """user model fields list display"""
 
@@ -22,46 +23,39 @@ class UserAdmin(admin.ModelAdmin):
         "last_name",
         "email",
     )
-    list_filter = (
-        "verification",
-    )
+    list_filter = ("verification",)
 
 
 class CategoryAdmin(admin.ModelAdmin):
     """user model fields list display"""
 
-    list_display = (
-            "id",
-            "title"
-    )
+    list_display = ("id", "title")
 
     search_fields = (
-      "id",
-      "title",
+        "id",
+        "title",
     )
 
-    list_filter = (
-      "title",
-    )
+    list_filter = ("title",)
 
 
 class BookAdmin(admin.ModelAdmin):
     """user model fields list display"""
 
     list_display = (
-            "id",
-            "title",
-            "category",
-            "author",
-            "isbn",
-            "pages",
-            "price",
-            "stock",
-            "description",
-            "imageUrl",
-            "user",
-            "status",
-            "date_created",
+        "id",
+        "title",
+        "category",
+        "author",
+        "isbn",
+        "pages",
+        "price",
+        "stock",
+        "description",
+        "imageUrl",
+        "user",
+        "status",
+        "date_created",
     )
 
     search_fields = (
@@ -72,36 +66,37 @@ class BookAdmin(admin.ModelAdmin):
     )
 
     list_filter = (
-       "title",
+        "title",
         "category",
         "author",
     )
+
 
 class ProductAdmin(admin.ModelAdmin):
     """user model fields list display"""
 
     list_display = (
-            "id",
-            "product_tag",
-            "name",
-            "category",
-            "price",
-            "stock",
-            "imageUrl",
-            "user",
-            "status",
-            "date_created",
+        "id",
+        "product_tag",
+        "name",
+        "category",
+        "price",
+        "stock",
+        "imageUrl",
+        "user",
+        "status",
+        "date_created",
     )
 
     search_fields = (
-      "name",
-      "category",
+        "name",
+        "category",
     )
 
     list_filter = (
-      "name",
-      "category",
-      "price",
+        "name",
+        "category",
+        "price",
     )
 
 
@@ -109,21 +104,12 @@ class CartAdmin(admin.ModelAdmin):
     """user model fields list display"""
 
     list_display = (
-            "cart_id_id",
-            "cart_id",
-            "created_at",
+        "cart_id_id",
+        "cart_id",
+        "created_at",
     )
 
-    search_fields = (
-      "cart_id_id",
-    )
-
-
-
-
-
-
-
+    search_fields = ("cart_id_id",)
 
 
 # admin.site.register(Category)
@@ -136,5 +122,3 @@ admin.site.register(Category, CategoryAdmin)
 admin.site.register(Book, BookAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Cart, CartAdmin)
-
-
