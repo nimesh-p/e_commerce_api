@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "rest_auth",
     "django_rest_passwordreset",
+    "django_filters",
 ]
 
 SITE_ID = 1
@@ -92,7 +93,19 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_jwt.authentication.JSONWebTokenAuthentication",
     ],
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 2,
 }
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+#     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+#     'PAGE_SIZE': 4,
+#     "DEFAULT_AUTHENTICATION_CLASSES": [
+# "rest_framework_jwt.authentication.JSONWebTokenAuthentication",
+# ],
+# }
+
 
 WSGI_APPLICATION = "e_commerce.wsgi.application"
 
@@ -110,8 +123,8 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = ""
-EMAIL_HOST_PASSWORD = ""
+EMAIL_HOST_USER = "prajapatinimesh0717@gmail.com"
+EMAIL_HOST_PASSWORD = "Nimesh17@"
 
 
 REST_AUTH_SERIALIZERS = {

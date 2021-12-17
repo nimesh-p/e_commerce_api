@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from functools import partial
+from rest_framework import pagination
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import render
 from rest_framework import generics
@@ -37,6 +38,8 @@ from django.shortcuts import get_object_or_404
 from copy import deepcopy
 from commerce_api.constants import CLASS_RESPONSE, ORGANIZATION_RESPONCE
 from six import python_2_unicode_compatible
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.pagination import PageNumberPagination
 
 
 class RegistrationAPIView(generics.GenericAPIView):
@@ -65,7 +68,7 @@ class RegistrationAPIView(generics.GenericAPIView):
 
 
 class LoginView(RestLoginView):
-    # permission_classes = (permissions.AllowAny,)
+    permission_classes = (permissions.AllowAny,)
 
     def post(self, request, *args, **kwargs):
         serializer = CustomLoginSerializer(
@@ -170,18 +173,20 @@ class DetailCategory(generics.RetrieveUpdateDestroyAPIView):
 
 
 class ListProduct(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get_object(self, pk):
         return Product.objects.get(pk=pk)
 
-    def get(self, request, pk, format=None):
-        snippet = self.get_object(pk)
-        serializer = ProductSerializer(snippet)
-        return Response(serializer.data)
-
     # def get(self, request, format=None):
-    #     snippets = Product.objects.all()
-    #     serializer = ProductSerializer(snippets, many=True)
+    #     # snippet = self.get_object(pk)
+    #     serializer = ProductSerializer(Product.objects.all(),many=True)
     #     return Response(serializer.data)
+
+    def get(self, request, format=None):
+        snippets = Product.objects.all()
+        serializer = ProductSerializer(snippets, many=True)
+        return Response(serializer.data)
 
     def post(self, request, format=None):
 
@@ -193,7 +198,13 @@ class ListProduct(APIView):
         serializer = ProductSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(
+                {
+                    "Message": "Thank you for buying new product",
+                    "Data": serializer.data,
+                    "status": status.HTTP_201_CREATED,
+                }
+            )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, pk, format=None):
@@ -205,7 +216,12 @@ class ListProduct(APIView):
         serializer = ProductSerializer(snippet, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(
+                {
+                    "Message": "your data is updated succesfully...",
+                    "Data": serializer.data,
+                }
+            )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
@@ -223,10 +239,22 @@ class ListProduct(APIView):
 #     queryset = Product.objects.all()
 #     serializer_class = ProductSerializer
 
+# class UserView(generics.ListAPIView):
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
+
 
 class ListUser(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
-
+    # filter_backends = [DjangoFilterBackend]
+    # filterset_fields = ['first_name']
+    # page_size = 5
+    # pagination_class = PageNumberPagination
+    # # paginator = None
+    # paginate_by = 10
+    # model_class = User
+    # queryset = User.objects.all()
+    # serializer_class = UserSerializer
     def list(self, request):
         user_list = User.objects.all()
         serializer = UserSerializer(user_list, many=True)
@@ -278,7 +306,7 @@ class ListUser(viewsets.ViewSet):
 
 
 class ListCart(viewsets.ViewSet):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def list(self, request):
         user_list = Cart.objects.all()

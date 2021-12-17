@@ -61,7 +61,7 @@ class BookAdmin(admin.ModelAdmin):
     search_fields = (
         "id",
         "title",
-        "category",
+        "category__title",
         "author",
     )
 
@@ -90,7 +90,7 @@ class ProductAdmin(admin.ModelAdmin):
 
     search_fields = (
         "name",
-        "category",
+        "category__title",
     )
 
     list_filter = (
@@ -109,7 +109,7 @@ class CartAdmin(admin.ModelAdmin):
         "created_at",
     )
 
-    search_fields = ("cart_id_id",)
+    # search_fields = ("cart_id_id",)
 
 
 # admin.site.register(Category)
