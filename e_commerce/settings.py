@@ -25,7 +25,7 @@ SECRET_KEY = "_-qfkt(-m5xly4tj0+72-pr^ti&^q9ku=%&#4!32k*ac5by&y^"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "rest_auth",
     "django_rest_passwordreset",
     "django_filters",
+    'django_extensions',
 ]
 
 SITE_ID = 1
@@ -65,7 +66,7 @@ ROOT_URLCONF = "e_commerce.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR, "templates")],
+        "DIRS": [os.path.join(BASE_DIR,"build"), os.path.join(BASE_DIR,"templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -84,10 +85,28 @@ DATABASES = {
         "NAME": "e_commerce_db",
         "USER": "postgres",
         "PASSWORD": "postgres",
-        "HOST": "localhost",
+        "HOST": "db",
         "PORT": "5432",
     }
 }
+
+# CELERY_BROKER_URL = 'redis://localhost:6379'
+# CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+temp = "redis"
+# temp = "localhost"
+CELERY_BROKER_URL=f"redis://{temp}:6379/0"
+# BROKER_URL = f"redis://{temp}:6379/0"
+CELERY_RESULT_BACKEND=f"redis://{temp}:6379/0"
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql_psycopg2",
+#         "NAME": os.environ.get("POSTGRES_DB"),
+#         "USER": os.environ.get("POSTGRES_USER"),
+#         "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
+#         "HOST": "db",
+#         "PORT": 5432,
+#     }
+# }
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
@@ -191,3 +210,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = "/static/"
+STATICFILES_DIRS = [os.path.join(BASE_DIR,"build"),os.path.join(BASE_DIR,"build/static")]
+STATIC_ROOT = os.path.join(BASE_DIR,"static")

@@ -3,7 +3,9 @@ from django.contrib.auth.models import AbstractUser
 from kombu.abstract import MaybeChannelBound
 from e_commerce.manager import UserManager
 from django.conf import settings
-
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericRelation
 User = settings.AUTH_USER_MODEL
 
 
@@ -76,7 +78,7 @@ class Product(models.Model):
     stock = models.IntegerField()
     imageUrl = models.URLField()
     user = models.ForeignKey(
-        "User", related_name="products", blank=True, null=True, on_delete=models.CASCADE
+        User, related_name="products", blank=True, null=True, on_delete=models.CASCADE
     )
     status = models.BooleanField(default=True)
     date_created = models.DateField(auto_now_add=True)
@@ -102,3 +104,40 @@ class Cart(models.Model):
 
     def __str__(self):
         return f"{self.cart_id}"
+
+
+class DocumentManager(models.QuerySet):
+
+    def first_name(self):
+        return self.filter(first_name='Pr')
+
+    def last_name(self):
+        return self.filter(last_name__startswith='d')
+
+
+class Comment(models.Model):
+    author = models.CharField(max_length=50)
+    content = models.TextField()
+
+    # the required fields to enable a generic relation
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey()
+
+    def __str__(self):
+        return self.author
+
+
+class Employee(models.Model):
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    email = models.EmailField(max_length=50, unique=True)
+    phone_no = models.IntegerField()
+    comments = GenericRelation(Comment)
+    objects = DocumentManager.as_manager()
+
+
+    def __str__(self):
+        return self.email
+
+

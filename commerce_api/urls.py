@@ -10,6 +10,7 @@ from .views import (
     EmailValidate,
     CustomPasswordResetView,
     CustomPasswordResetConfirmView,
+    EmployeeApiView
     # UserView
 )
 
@@ -38,5 +39,7 @@ urlpatterns = [
         CustomPasswordResetConfirmView().as_view(),
         name="password_reset_confirm",
     ),
+    path("emp/",EmployeeApiView.as_view(),name="emp"),
+    path("emp/<int:pk>/",EmployeeApiView.as_view(),name="emp"),
     # path("users-list",UserView.as_view(),name="users-list")
 ]

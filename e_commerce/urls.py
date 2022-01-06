@@ -14,11 +14,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, re_path
 from rest_framework.authtoken.views import obtain_auth_token
 from commerce_api.views import RegistrationAPIView, LoginView
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-
+# from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from django.views.generic import TemplateView
+from django.conf import settings
+from django.conf.urls.static import static
 # from rest_auth.views import LoginView
 from rest_auth.views import PasswordResetView, PasswordResetConfirmView
 
@@ -29,10 +31,13 @@ urlpatterns = [
     # path('api/v1/auth/auth-token', obtain_auth_token, name='obtain-auth-token')
     path("auth/register/", RegistrationAPIView.as_view(), name="register"),
     # path('auth/login/', TokenObtainPairView.as_view(), name='login'),
-    path("api-auth/", include("rest_framework.urls")),
+    # path("api-auth/", include("rest_framework.urls")),
     path("rest-auth/", include("rest_auth.urls")),
     path("login/", LoginView.as_view(), name="login"),
     path("password/", PasswordResetView.as_view(), name="password"),
-    path("password/confirm/", PasswordResetConfirmView.as_view(), name="password")
-    # path('auth/refresh-token', TokenRefreshView.as_view(), name='refreshtoken'),
+    path("password/confirm/", PasswordResetConfirmView.as_view(), name="password"),
+    # path('auth/refresh-token/', TokenRefreshView.as_view(), name='refreshtoken'),
 ]
+
+urlpatterns +=static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
+urlpatterns +=[re_path(r'react/',TemplateView.as_view(template_name="index.html"),name="home")]

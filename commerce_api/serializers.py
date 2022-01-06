@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Category, Book, Product, Cart
+from rest_framework.exceptions import ValidationError
+from .models import Category, Book, Product, Cart,Employee
 from django import forms
 from django.contrib.auth.forms import PasswordResetForm as PasswordResetFormCore
 
@@ -51,6 +52,10 @@ class UserSerializer(serializers.ModelSerializer):
             "last_name",
             "verification",
         )
+
+
+
+
 
 
 class CustomLoginSerializer(LoginSerializer):
@@ -179,3 +184,42 @@ class CustomPasswordResetSerializer(PasswordResetSerializer):
         if not User.objects.filter(email=value).exists():
             raise serializers.ValidationError("Invalid e-mail address")
         return value
+
+
+
+class EmployeeSerializer(serializers.ModelSerializer):
+
+    full_name = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = Employee
+        fields = ["id","first_name","last_name","email","phone_no","full_name"]
+
+    def validate_first_name(self, first_name):
+        if len(first_name) <= 4:
+            print("call")
+            raise ValidationError("name must be more than 5 character")
+        return first_name
+
+    def get_full_name(self,obj):
+        print(obj)
+        return obj.first_name+" "+obj.last_name
+
+
+
+
+    def update(self, instance, validated_data):
+        """
+        Update and return an existing `Snippet` instance, given the validated data.
+        """
+
+        instance.first_name = validated_data.get('first_name', instance.first_name)
+        print(instance.first_name)
+        instance.last_name = validated_data.get('last_name', instance.last_name)
+        print(instance.last_name)
+        instance.email = validated_data.get('email', instance.email)
+        print(instance.email)
+        instance.phone_no = validated_data.get('phone_no', instance.phone_no)
+        print(instance.phone_no)
+        instance.save()
+        return instance

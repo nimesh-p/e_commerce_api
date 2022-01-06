@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
-from commerce_api.models import Category, Book, Product, Cart, User
+from commerce_api.models import Category, Book, Product, Cart, User,Employee
 
 # Register your models here.
 
@@ -109,6 +109,27 @@ class CartAdmin(admin.ModelAdmin):
         "created_at",
     )
 
+
+class EmployeeAdmin(admin.ModelAdmin):
+    """user model fields list display"""
+
+    list_display = (
+        "id",
+        "first_name",
+        "last_name",
+        "email",
+        "phone_no",
+
+    )
+    search_fields = (
+        "id",
+        "first_name",
+        "last_name",
+        "email",
+    )
+
+
+
     # search_fields = ("cart_id_id",)
 
 
@@ -122,3 +143,4 @@ admin.site.register(Category, CategoryAdmin)
 admin.site.register(Book, BookAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Cart, CartAdmin)
+admin.site.register(Employee, EmployeeAdmin)

@@ -5,7 +5,7 @@ from rest_framework import pagination
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import render
 from rest_framework import generics
-from commerce_api.models import Category, Product, Book, Cart, User
+from commerce_api.models import Category, Employee, Product, Book, Cart, User
 from django.contrib.auth import login
 
 # from django.contrib.auth.models import User
@@ -18,6 +18,7 @@ from commerce_api.serializers import (
     RegistrationSerializer,
     CategoriesSerializer,
     CustomLoginSerializer,
+    EmployeeSerializer
 )
 from rest_framework import permissions
 from rest_framework.response import Response
@@ -218,7 +219,7 @@ class ListProduct(APIView):
             serializer.save()
             return Response(
                 {
-                    "Message": "your data is updated succesfully...",
+                    "Message": "your data is updated successfully...",
                     "Data": serializer.data,
                 }
             )
@@ -392,6 +393,28 @@ class CustomPasswordResetConfirmView(PasswordResetConfirmView):
             return Response(
                 {
                     "Message": "Password updated successfully",
+                }
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class EmployeeApiView(APIView):
+
+    def get(self, request,pk,format=None):
+        snippet = Employee.objects.get(id=pk)
+        serializer = EmployeeSerializer(snippet)
+        return Response(serializer.data)
+
+    def patch(self, request, pk, format=None):
+        snippet = Employee.objects.get(id=pk)
+        serializer = EmployeeSerializer(snippet, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                {
+                    "Message": "your data is updated successfully...",
+                    "Data": serializer.data,
                 }
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
